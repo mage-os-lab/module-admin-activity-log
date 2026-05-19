@@ -119,16 +119,24 @@ class SaveAfterTest extends TestCase
         $this->subject->execute($this->createObserverWithObject($object));
     }
 
-    public function testSyncsOrigDataForNewObjects(): void
+    public function testDoesNotPolluteOrigDataForNewObjects(): void
     {
-        $object = $this->createObjectMockForNew(['name' => 'Product', 'sku' => 'ABC']);
+        $object = $this->createObjectMockForNew([
+            'entity_id' => 42,
+            'name' => 'Product',
+            'sku' => 'ABC',
+        ]);
 
         $this->processor->method('getInitAction')->willReturn('catalog_product_save');
 
         $this->subject->execute($this->createObserverWithObject($object));
 
-        $this->assertSame('Product', $object->getOrigData('name'));
-        $this->assertSame('ABC', $object->getOrigData('sku'));
+        // orig_data must stay empty for a freshly inserted entity so downstream
+        // <event_prefix>_save_commit_after observers can detect new entities via
+        // empty(getOrigData('entity_id')) (the standard Magento idiom).
+        $this->assertNull($object->getOrigData('entity_id'));
+        $this->assertNull($object->getOrigData('name'));
+        $this->assertNull($object->getOrigData('sku'));
     }
 
     public function testCallsModelEditAfterForExistingValidObject(): void
