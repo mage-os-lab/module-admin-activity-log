@@ -40,11 +40,6 @@ class SaveAfter extends AbstractActivityObserver
             } else {
                 $this->processor->modelAddAfter($object);
             }
-
-            // Sync origData to current data so subsequent edit checks find no changes
-            foreach ($object->getData() as $key => $value) {
-                $object->setOrigData($key, $value);
-            }
         } elseif ($this->processor->validate($object)) {
             if ($this->processor->getEventConfig('action') === self::ACTION_MASSCANCEL) {
                 $this->processor->modelDeleteAfter($object);
