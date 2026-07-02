@@ -25,6 +25,9 @@
         "magento/module-user": ">=100.0.0",
         "magento/module-ui": ">=100.0.0"
     },
+    "suggest": {
+        "adwise/module-admin-activity-dashboard": "Displays this activity log as a widget on the Hyvä Commerce Admin Dashboard"
+    },
     "require-dev": {
         "phpunit/phpunit": "^9.5||^10.0"
     },
