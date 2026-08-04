@@ -118,10 +118,6 @@ class SystemConfig implements ModelInterface
     {
         $logData = [];
 
-        $section = $this->getPath($model);
-        $model->setConfig('System Configuration');
-        $model->setId($section);
-
         $fullPath = (string)$model->getData('path');
         $parts = explode('/', $fullPath);
         if (count($parts) < 3) {

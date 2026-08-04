@@ -82,7 +82,6 @@ class ThemeConfig implements ModelInterface
         $oldData = $this->getOldData($model);
         $newData = $this->request->getPostValue();
         $result = $this->collectAdditionalData($oldData, $newData, $fieldArray);
-        $model->setConfig('Theme Configuration');
         $model->setId($path);
         return $result;
     }
